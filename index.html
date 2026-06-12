@@ -84,13 +84,12 @@
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 22px 24px;
-            transition: border-color var(--trans), box-shadow var(--trans), transform var(--trans);
+            transition: border-color var(--trans), box-shadow var(--trans);
             box-shadow: var(--shadow);
         }
         .表單卡片:hover {
             border-color: var(--accent);
             box-shadow: 0 6px 20px rgba(0,229,255,0.12);
-            transform: translateY(-2px);
         }
 
         /* ── 區塊標題 ── */
@@ -230,7 +229,6 @@
         /* ── 進度條 ── */
         @keyframes sweep { 0%{left:-40%;width:40%} 100%{left:100%;width:40%} }
         .進度條包裹 { height: 3px; background: var(--border-d); border-radius: 3px; overflow: hidden; display: none; margin-bottom: 2px; }
-        .進度條包裹.活躍 { display: block; }
         .進度條指示 { position: relative; height: 100%; background: linear-gradient(90deg,transparent,var(--accent),transparent); animation: sweep 1.1s ease-in-out infinite; }
 
         /* ── 輸出區 ── */
@@ -299,6 +297,93 @@
             .組員排版 { grid-template-columns: 1fr; }
             .輸出工具列 { flex-direction: column; align-items: flex-start; }
         }
+
+        /* ══ 簡報模組 ══ */
+        .模組折疊器 {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 0;
+        }
+        .模組標題列 {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 24px; cursor: pointer;
+            background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(0,123,255,0.04));
+            border-bottom: 1px solid transparent;
+            transition: background var(--trans), border-color var(--trans);
+            user-select: none;
+        }
+        .模組標題列:hover { background: linear-gradient(135deg, rgba(0,229,255,0.12), rgba(0,123,255,0.08)); }
+        .模組標題列.展開 { border-bottom-color: var(--border-d); }
+        .模組標題文字 { font-size: 13px; font-weight: bold; letter-spacing: 1.5px; color: var(--accent); text-transform: uppercase; }
+        .模組標題徽章 {
+            font-size: 11px; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.25);
+            color: var(--accent); padding: 2px 10px; border-radius: 20px; margin-left: 10px;
+        }
+        .模組展開箭頭 { color: var(--text-sub); font-size: 14px; transition: transform 0.3s; }
+        .模組展開箭頭.旋轉 { transform: rotate(180deg); }
+        .模組內容區 { display: none; padding: 24px; }
+        .模組內容區.展開 { display: block; }
+
+        /* 風格分類 Tab */
+        .風格分類標籤列 {
+            display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px;
+        }
+        .風格分類標籤 {
+            padding: 6px 16px; border: 1px solid var(--border); border-radius: 20px;
+            font-size: 12px; cursor: pointer; background: var(--bg-deep);
+            color: var(--text-sub); transition: all var(--trans); white-space: nowrap;
+        }
+        .風格分類標籤:hover { border-color: var(--accent); color: var(--accent); }
+        .風格分類標籤.選中 { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: bold; }
+
+        /* 風格卡片網格 */
+        .風格卡片網格 { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 18px; }
+        .風格卡片 {
+            border: 1.5px solid var(--border-d); border-radius: var(--radius);
+            padding: 12px 14px; cursor: pointer; background: var(--bg-deep);
+            transition: all var(--trans); position: relative; overflow: hidden;
+        }
+        .風格卡片::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+            background: var(--accent); opacity: 0; transition: opacity var(--trans);
+        }
+        .風格卡片:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,229,255,0.12); }
+        .風格卡片:hover::before { opacity: 1; }
+        .風格卡片.選中 { border-color: var(--accent); background: rgba(0,229,255,0.06); }
+        .風格卡片.選中::before { opacity: 1; }
+        .風格卡片名稱 { font-size: 13px; font-weight: bold; color: var(--text); margin-bottom: 4px; }
+        .風格卡片標籤 { font-size: 10px; color: var(--text-sub); }
+        .風格卡片適用 { font-size: 10px; color: var(--accent); margin-top: 4px; opacity: 0.8; }
+
+        /* 屬性設定區 */
+        .屬性網格 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+        .屬性項目 {}
+        .屬性標籤 { font-size: 11px; color: var(--text-sub); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .屬性編號 {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 18px; height: 18px; border-radius: 50%; background: rgba(0,229,255,0.15);
+            font-size: 10px; color: var(--accent); font-weight: bold; flex-shrink: 0;
+        }
+
+        /* 自動判別預覽 */
+        .自動判別預覽 {
+            background: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.15);
+            border-radius: var(--radius); padding: 14px 18px; margin-top: 14px;
+        }
+        .判別結果列 { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 12px; flex-wrap: wrap; }
+        .判別標籤 { color: var(--text-sub); white-space: nowrap; }
+        .判別值 { color: var(--accent); font-weight: bold; }
+        .判別徽章 {
+            font-size: 10px; background: rgba(100,255,218,0.08); border: 1px solid rgba(100,255,218,0.2);
+            color: #64FFDA; padding: 2px 8px; border-radius: 12px;
+        }
+
+        @media (max-width: 1024px) { .風格卡片網格 { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 768px) { .風格卡片網格 { grid-template-columns: 1fr 1fr; } .屬性網格 { grid-template-columns: 1fr; } }
+        @media (max-width: 480px) { .風格卡片網格 { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -319,7 +404,7 @@
             <div class="區塊標題">核心設定</div>
 
             <!-- 即時色調預覽列 -->
-            <div class="色調預覽列" id="色調預覽列">
+            <div class="色調預覽列">
                 <span class="色調預覽標題">主題專屬色調：</span>
                 <div class="色調膠囊">
                     <div class="發光圓點" id="發光圓點"></div>
@@ -330,7 +415,7 @@
             </div>
 
             <!-- 風格預覽 -->
-            <div class="風格預覽條" id="風格預覽條">
+            <div class="風格預覽條">
                 <span class="標籤">自動判定結果：</span>
                 <span class="值" id="風格預覽值">等待輸入主題...</span>
             </div>
@@ -396,14 +481,25 @@
                 <div>
                     <label>簡報類型</label>
                     <select id="簡報類型">
-                        <option value="論文發表" selected>論文發表</option>
-                        <option value="學術專案報告">學術專案報告</option>
-                        <option value="商業提案企劃">商業提案企劃</option>
-                        <option value="期末成果展演">期末成果展演</option>
-                        <option value="產品發表會">產品發表會</option>
-                        <option value="專題研討會">專題研討會</option>
-                        <option value="教育訓練課程">教育訓練課程</option>
-                        <option value="專案進度匯報">專案進度匯報</option>
+                        <optgroup label="── 學術 ──">
+                            <option value="論文發表" selected>論文發表</option>
+                            <option value="學術專案報告">學術專案報告</option>
+                            <option value="期末成果展演">期末成果展演</option>
+                            <option value="專題研討會">專題研討會</option>
+                        </optgroup>
+                        <optgroup label="── 商業 ──">
+                            <option value="商業提案企劃">商業提案企劃</option>
+                            <option value="產品發表會">產品發表會</option>
+                            <option value="專案進度匯報">專案進度匯報</option>
+                            <option value="教育訓練課程">教育訓練課程</option>
+                        </optgroup>
+                        <optgroup label="── 旅遊規劃 ──">
+                            <option value="旅遊行程規劃">旅遊行程規劃</option>
+                            <option value="目的地導覽介紹">目的地導覽介紹</option>
+                            <option value="旅遊提案企劃書">旅遊提案企劃書</option>
+                            <option value="旅遊回顧紀錄">旅遊回顧紀錄</option>
+                            <option value="旅遊預算規劃">旅遊預算規劃</option>
+                        </optgroup>
                     </select>
                 </div>
                 <div>
@@ -483,10 +579,365 @@
 一頁一主題</textarea>
         </div>
 
+
+        <!-- 區塊六：簡報模組整合 -->
+        <div class="模組折疊器" id="簡報模組折疊器">
+            <div class="模組標題列" onclick="切換模組展開()">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:16px;">🎯</span>
+                    <span class="模組標題文字">簡報屬性 × 風格模組</span>
+                    <span class="模組標題徽章">5 類 20 種</span>
+                </div>
+                <span class="模組展開箭頭" id="模組箭頭">▼</span>
+            </div>
+            <div class="模組內容區" id="模組內容區">
+
+                <!-- 五大類風格選擇器 -->
+                <div class="區塊標題">簡報風格類型</div>
+                <div class="風格分類標籤列" id="風格分類標籤列">
+                    <span class="風格分類標籤 選中" onclick="切換分類(this,'全部')">全部 20 種</span>
+                    <span class="風格分類標籤" onclick="切換分類(this,'結構')">🏗 結構類型（5）</span>
+                    <span class="風格分類標籤" onclick="切換分類(this,'資訊')">📊 資訊圖表（4）</span>
+                    <span class="風格分類標籤" onclick="切換分類(this,'思考')">🧠 思考整理（4）</span>
+                    <span class="風格分類標籤" onclick="切換分類(this,'故事')">📖 故事敘述（3）</span>
+                    <span class="風格分類標籤" onclick="切換分類(this,'設計')">🎨 設計風格（4）</span>
+                </div>
+
+                <div class="風格卡片網格" id="風格卡片容器"></div>
+
+                <!-- 15 項屬性設定 -->
+                <div class="區塊標題" style="margin-top:8px;">簡報屬性設定（15 項）</div>
+                <div class="屬性網格">
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">1</span> 受眾設定</div>
+                        <select id="屬性受眾">
+                            <optgroup label="── 學生 ──">
+                                <option value="國小學生（圖示主導、趣味化）">國小學生</option>
+                                <option value="國中生（互動引導、生活例子）">國中生</option>
+                                <option value="高中生（概念建構、思辨引導）">高中生</option>
+                                <option value="大學生（學術入門、批判思考）">大學生</option>
+                            </optgroup>
+                            <optgroup label="── 職場 ──">
+                                <option value="專業職場（精準術語、分層論點）" selected>專業職場</option>
+                                <option value="企業主管（結論先行、數據支撐）">企業主管</option>
+                                <option value="跨部門混合受眾（通用語言、視覺輔助）">跨部門混合受眾</option>
+                                <option value="新進人員（步驟清晰、低術語）">新進人員</option>
+                            </optgroup>
+                            <optgroup label="── 學術／研究 ──">
+                                <option value="研究人員（引用規範、方法論嚴謹）">研究人員</option>
+                                <option value="學術評審委員（摘要先行、數據為核心）">學術評審委員</option>
+                                <option value="跨領域學者（定義術語、附類比說明）">跨領域學者</option>
+                            </optgroup>
+                            <optgroup label="── 一般大眾 ──">
+                                <option value="一般民眾（生活化例子、避免術語）">一般民眾</option>
+                                <option value="社區居民（在地連結、圖表簡明）">社區居民</option>
+                                <option value="媒體記者（重點突出、故事性高）">媒體記者</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊受眾 ──">
+                                <option value="自助旅行者（行程細節、實用資訊優先）">自助旅行者</option>
+                                <option value="跟團旅客（重點簡明、視覺吸引）">跟團旅客</option>
+                                <option value="家庭出遊（活動多元、老少兼顧）">家庭出遊</option>
+                                <option value="商務旅客（效率導向、交通住宿重點）">商務旅客</option>
+                                <option value="背包客（低預算、彈性行程）">背包客</option>
+                                <option value="銀髮族旅遊（無障礙、步調舒緩）">銀髮族旅遊</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">2</span> 簡報用途</div>
+                        <select id="屬性用途">
+                            <optgroup label="── 教學類 ──">
+                                <option value="課堂教學型（知識傳遞、互動引導）">課堂教學型</option>
+                                <option value="自學型（自我導向、進度自訂）">自學型</option>
+                                <option value="工作坊型（動手做、分組任務）">工作坊型</option>
+                            </optgroup>
+                            <optgroup label="── 報告類 ──">
+                                <option value="研究報告型（方法→結果→討論）" selected>研究報告型</option>
+                                <option value="期末成果發表（過程→結論→反思）">期末成果發表</option>
+                                <option value="專案進度匯報（里程碑→風險→下步）">專案進度匯報</option>
+                                <option value="年度績效報告（KPI→達成→改善）">年度績效報告</option>
+                            </optgroup>
+                            <optgroup label="── 提案類 ──">
+                                <option value="商業提案型（問題→解方→效益）">商業提案型</option>
+                                <option value="說服型（SCQA 架構）">說服型</option>
+                                <option value="募資型（痛點→市場→方案→ROI）">募資型</option>
+                            </optgroup>
+                            <optgroup label="── 展示類 ──">
+                                <option value="產品發表型（功能→差異化→CTA）">產品發表型</option>
+                                <option value="品牌宣傳型（故事→情感→行動）">品牌宣傳型</option>
+                                <option value="競賽簡報型（創意→可行性→影響力）">競賽簡報型</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊規劃類 ──">
+                                <option value="旅遊行程規劃型（景點→交通→住宿→費用）">旅遊行程規劃型</option>
+                                <option value="目的地導覽型（文化→景點→美食→注意事項）">目的地導覽型</option>
+                                <option value="旅遊提案型（主題→行程→預算→ CTA）">旅遊提案型</option>
+                                <option value="旅遊回顧型（紀錄→亮點→心得→建議）">旅遊回顧型</option>
+                                <option value="旅遊預算分析型（項目→費用→比較→最佳方案）">旅遊預算分析型</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">6</span> 資料結構 / 教學流程</div>
+                        <select id="屬性資料結構">
+                            <optgroup label="── 邏輯結構 ──">
+                                <option value="問題解決型（問題→原因→解方→評估）" selected>問題解決型</option>
+                                <option value="金字塔原則（結論→論據→數據）">金字塔原則</option>
+                                <option value="SCQA 結構（情境→衝突→疑問→解答）">SCQA 結構</option>
+                                <option value="5W1H 框架（何人何事何時何地為何如何）">5W1H 框架</option>
+                            </optgroup>
+                            <optgroup label="── 教學流程 ──">
+                                <option value="線性教學流程（概念→說明→範例→練習）">線性教學流程</option>
+                                <option value="探究式學習（問題→假設→驗證→結論）">探究式學習</option>
+                                <option value="翻轉課堂型（複習→應用→討論）">翻轉課堂型</option>
+                                <option value="案例導入型（案例→分析→原則→應用）">案例導入型</option>
+                            </optgroup>
+                            <optgroup label="── 資料敘事 ──">
+                                <option value="數據分析型（背景→數據→洞見→建議）">數據分析型</option>
+                                <option value="比較對照型（基準→對比→差異→結論）">比較對照型</option>
+                                <option value="趨勢分析型（歷史→現況→預測→因應）">趨勢分析型</option>
+                                <option value="故事敘事型（背景→衝突→高潮→解決）">故事敘事型</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊流程 ──">
+                                <option value="行程日序型（Day1→Day2→Day3 逐日規劃）">行程日序型</option>
+                                <option value="景點地圖型（區域分組→動線規劃→時間配置）">景點地圖型</option>
+                                <option value="主題路線型（主題→景點串連→交通方式）">主題路線型</option>
+                                <option value="比較選擇型（方案A vs 方案B→預算→推薦）">比較選擇型</option>
+                                <option value="旅遊紀錄型（時序→照片→心得→評分）">旅遊紀錄型</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">10</span> 版面比例</div>
+                        <select id="屬性版面比例">
+                            <optgroup label="── 橫向版面 ──">
+                                <option value="16:9（1920×1080，寬螢幕標準）" selected>16:9（寬螢幕標準）</option>
+                                <option value="16:10（1920×1200，MacBook 常用）">16:10（MacBook 適用）</option>
+                                <option value="3:2（1500×1000，平板優化）">3:2（平板優化）</option>
+                                <option value="4:3（1024×768，傳統投影機）">4:3（傳統投影機）</option>
+                            </optgroup>
+                            <optgroup label="── 直向版面 ──">
+                                <option value="9:16（1080×1920，手機直立閱讀）">9:16（手機直立）</option>
+                                <option value="A4 直式（210×297mm，文件列印）">A4 直式（可列印）</option>
+                                <option value="A4 橫式（297×210mm，橫向文件）">A4 橫式（可列印）</option>
+                            </optgroup>
+                            <optgroup label="── 社群媒體 ──">
+                                <option value="1:1（1080×1080，Instagram 方版）">1:1（Instagram 方版）</option>
+                                <option value="4:5（1080×1350，Instagram 直版）">4:5（Instagram 直版）</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊專用 ──">
+                                <option value="16:9（旅遊簡報投影標準）">16:9（旅遊簡報投影）</option>
+                                <option value="9:16（旅遊 Reels / TikTok 直立影片）">9:16（Reels 直立）</option>
+                                <option value="A4 直式（旅遊手冊可列印版）">A4 直式（旅遊手冊）</option>
+                                <option value="方版 1:1（旅遊社群打卡圖）">1:1（旅遊打卡圖）</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">11</span> 文字風格</div>
+                        <select id="屬性文字風格">
+                            <optgroup label="── 正式 ──">
+                                <option value="學術式（嚴謹用詞、引用規範、被動語態）" selected>學術式</option>
+                                <option value="報告式（條理清晰、數據支撐、中性語氣）">報告式</option>
+                                <option value="法規式（精確定義、條款分層、無歧義）">法規式</option>
+                            </optgroup>
+                            <optgroup label="── 教學 ──">
+                                <option value="教學式（循序引導、口語化補充、舉例豐富）">教學式</option>
+                                <option value="啟發式（提問開場、引導思考、留白空間）">啟發式</option>
+                                <option value="故事式（情境帶入、情感連結、具體人物）">故事式</option>
+                            </optgroup>
+                            <optgroup label="── 商業 ──">
+                                <option value="簡潔式（結論先行、短句、重點標記）">簡潔式</option>
+                                <option value="說服式（WIIFM 視角、利益導向、行動呼籲）">說服式</option>
+                                <option value="品牌式（語氣一致、情感共鳴、品牌個性）">品牌式</option>
+                            </optgroup>
+                            <optgroup label="── 創意 ──">
+                                <option value="幽默式（輕鬆比喻、適度玩笑、破冰用）">幽默式</option>
+                                <option value="詩意式（意象語言、節奏感、視覺感強）">詩意式</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊風格 ──">
+                                <option value="導遊口吻（熱情帶路、在地小知識穿插）">導遊口吻</option>
+                                <option value="旅遊部落客（真實體驗、照片說明、口語化）">旅遊部落客</option>
+                                <option value="旅遊雜誌式（精緻排版、專業描述、圖文並茂）">旅遊雜誌式</option>
+                                <option value="旅遊攻略式（步驟清晰、重點標記、實用導向）">旅遊攻略式</option>
+                                <option value="旅遊記事式（日記體、情境描述、個人感受）">旅遊記事式</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">12</span> 文字密度</div>
+                        <select id="屬性文字密度">
+                            <optgroup label="── 極簡 ──">
+                                <option value="每頁不超過 20 字（標題卡片型）">每頁不超過 20 字（標題卡片）</option>
+                                <option value="每頁不超過 30 字（關鍵詞型）">每頁不超過 30 字（關鍵詞型）</option>
+                                <option value="每頁不超過 40 字（精簡型）">每頁不超過 40 字（精簡型）</option>
+                            </optgroup>
+                            <optgroup label="── 標準 ──">
+                                <option value="每頁不超過 60 字（標準型）" selected>每頁不超過 60 字（標準型）</option>
+                                <option value="每頁不超過 80 字（詳細型）">每頁不超過 80 字（詳細型）</option>
+                            </optgroup>
+                            <optgroup label="── 資訊密集 ──">
+                                <option value="每頁不超過 100 字（資料型）">每頁不超過 100 字（資料型）</option>
+                                <option value="每頁不超過 120 字（學術報告型）">每頁不超過 120 字（學術報告型）</option>
+                                <option value="不限字數（講義型，含完整說明文字）">不限字數（講義型）</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊專用 ──">
+                                <option value="圖多字少（每頁不超過 30 字，照片主導）">圖多字少（照片主導）</option>
+                                <option value="圖文並重（每頁 40–60 字，標註說明）">圖文並重（標註說明）</option>
+                                <option value="資訊卡片型（每頁含地址/電話/營業時間）">資訊卡片型（含聯絡資訊）</option>
+                                <option value="行程表格型（日期、地點、時間結構化呈現）">行程表格型</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">13</span> 關鍵摘要</div>
+                        <select id="屬性摘要數">
+                            <optgroup label="── 標準摘要 ──">
+                                <option value="每個主題附重點摘要（3條）">每個主題附重點摘要（3 條）</option>
+                                <option value="每頁底部加入一行精華句" selected>每頁底部加入一行精華句</option>
+                                <option value="倒數第2頁集中呈現全場摘要">倒數第 2 頁集中呈現全場摘要</option>
+                                <option value="每章節末頁附摘要卡片">每章節末頁附摘要卡片</option>
+                                <option value="不加摘要">不加摘要</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊摘要 ──">
+                                <option value="每個景點附「必去理由」一句話摘要">每個景點附必去理由</option>
+                                <option value="每日行程末頁附當日亮點回顧">每日行程末頁回顧</option>
+                                <option value="旅遊小提醒卡片（注意事項+貼心叮嚀）">旅遊小提醒卡片</option>
+                                <option value="費用摘要頁（每項目金額+總計）">費用摘要頁</option>
+                                <option value="行程總覽表格（全程日期+地點一覽）">行程總覽表格</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">14</span> 互動元素</div>
+                        <select id="屬性互動元素">
+                            <option value="無">無</option>
+                            <optgroup label="── 思考類 ──">
+                                <option value="加入討論題（1個/章節）" selected>討論題（1個/章節）</option>
+                                <option value="加入思考題（每張底部）">思考題（每張底部）</option>
+                                <option value="加入反思題（學完後自問）">反思題（學後回顧）</option>
+                                <option value="加入預測題（學前啟動先備知識）">預測題（課前引導）</option>
+                            </optgroup>
+                            <optgroup label="── 評量類 ──">
+                                <option value="加入選擇題（2–4 選項，即時確認理解）">選擇題（即時評量）</option>
+                                <option value="加入是非題（快速確認關鍵概念）">是非題（概念確認）</option>
+                                <option value="加入填空題（關鍵詞填入）">填空題（關鍵詞）</option>
+                            </optgroup>
+                            <optgroup label="── 互動類 ──">
+                                <option value="加入投票題（舉手/票選，課堂氣氛）">投票題（課堂票選）</option>
+                                <option value="加入 QR Code 連結（延伸閱讀）">QR Code（延伸閱讀）</option>
+                                <option value="討論題+思考題並用">討論題＋思考題組合</option>
+                                <option value="全套互動（討論+評量+投票）">全套互動組合</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊互動 ──">
+                                <option value="加入「你會去嗎？」票選（行程確認）">票選：你會去嗎？</option>
+                                <option value="加入景點 QR Code（Google Maps 連結）">景點 QR Code（地圖）</option>
+                                <option value="加入「最想去哪？」排名互動">最想去哪排名</option>
+                                <option value="加入旅遊預算試算互動（填入人數自動換算）">預算試算互動</option>
+                                <option value="加入旅遊風格測驗（選出最適合的行程）">旅遊風格測驗</option>
+                                <option value="加入照片競猜（這是哪裡？）">照片競猜互動</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">15</span> 教學活動</div>
+                        <select id="屬性教學活動">
+                            <option value="無">無</option>
+                            <optgroup label="── 個人活動 ──">
+                                <option value="個人思考與寫下（3分鐘靜思）">個人靜思紀錄</option>
+                                <option value="加入小練習題（個人完成）">個人小練習</option>
+                                <option value="個人快速作圖（心智圖/概念圖）">個人快速作圖</option>
+                                <option value="課後自主延伸閱讀任務">課後延伸任務</option>
+                            </optgroup>
+                            <optgroup label="── 分組活動 ──">
+                                <option value="加入分組討論（小組3–5人）" selected>分組討論</option>
+                                <option value="分組討論+小練習">分組討論＋小練習</option>
+                                <option value="小組辯論（正反方立場對決）">小組辯論</option>
+                                <option value="小組案例分析（情境題共同解題）">小組案例分析</option>
+                                <option value="小組角色扮演（模擬情境）">角色扮演模擬</option>
+                            </optgroup>
+                            <optgroup label="── 全班活動 ──">
+                                <option value="全班頭腦風暴（白板收集想法）">全班腦力激盪</option>
+                                <option value="即席提問與解答（Q&amp;A 環節）">即席 Q&amp;A</option>
+                                <option value="同儕互評（作品互相回饋）">同儕互評</option>
+                            </optgroup>
+                            <optgroup label="── 混合模式 ──">
+                                <option value="個人思考→分組討論→全班分享（Think-Pair-Share）">Think-Pair-Share</option>
+                                <option value="翻轉課堂（課前自學→課中討論→課後應用）">翻轉課堂模式</option>
+                                <option value="站台輪替（Stations Rotation，多站點學習）">站台輪替學習</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊規劃活動 ──">
+                                <option value="分組設計行程競賽（各組提案→票選最佳行程）">分組行程競賽</option>
+                                <option value="地圖標記任務（在地圖上標出景點與動線）">地圖標記任務</option>
+                                <option value="旅遊預算分配演練（固定預算分配各項費用）">預算分配演練</option>
+                                <option value="目的地快速簡報（每人2分鐘推薦一個景點）">景點快速簡報</option>
+                                <option value="旅遊問題解決模擬（突發狀況如何應對）">突發狀況模擬</option>
+                                <option value="旅遊回顧心得分享（照片+3個關鍵感受）">旅遊心得分享</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="屬性項目">
+                        <div class="屬性標籤"><span class="屬性編號">5</span> 內容深度</div>
+                        <select id="屬性內容深度">
+                            <optgroup label="── 認知層次（布魯姆分類）──">
+                                <option value="記憶層（知道是什麼，定義/術語/事實）">記憶層（定義事實）</option>
+                                <option value="理解層（解釋概念，比喻/整理/重述）">理解層（解釋概念）</option>
+                                <option value="應用層（用概念解題，計算/操作/執行）">應用層（操作執行）</option>
+                                <option value="分析層（拆解結構，比較/分類/找關係）">分析層（比較拆解）</option>
+                                <option value="評鑑層（做判斷，優缺點/論點支持）">評鑑層（批判判斷）</option>
+                                <option value="創造層（產出新物，設計/提案/發明）">創造層（設計提案）</option>
+                            </optgroup>
+                            <optgroup label="── 深度控制 ──">
+                                <option value="概念層（入門介紹，What）">概念層（入門 What）</option>
+                                <option value="心智層（系統理解，Why+How）" selected>心智層（系統 Why+How）</option>
+                                <option value="例子層（應用實踐，應用場景）">例子層（應用場景）</option>
+                                <option value="專家層（原理推導，研究細節）">專家層（原理推導）</option>
+                            </optgroup>
+                            <optgroup label="── 學習目標導向 ──">
+                                <option value="素養導向（核心素養，跨域整合）">素養導向</option>
+                                <option value="技能導向（可操作，立即上手）">技能導向</option>
+                                <option value="考試導向（重點整理，命題焦點）">考試導向</option>
+                                <option value="探究導向（開放問題，自主建構）">探究導向</option>
+                            </optgroup>
+                            <optgroup label="── 旅遊內容深度 ──">
+                                <option value="觀光入門層（基本景點、交通、費用）">觀光入門層</option>
+                                <option value="深度旅遊層（在地文化、歷史脈絡、體驗活動）">深度旅遊層</option>
+                                <option value="主題探索層（特定主題：美食/藝術/自然/歷史）">主題探索層</option>
+                                <option value="旅遊規劃專業層（動線優化、預算分析、風險管理）">旅遊規劃專業層</option>
+                                <option value="跨文化理解層（風俗禁忌、語言文化、在地禮節）">跨文化理解層</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 自動判別規則預覽 -->
+                <div class="自動判別預覽">
+                    <div style="font-size:11px;color:var(--text-sub);margin-bottom:10px;letter-spacing:1px;">⚡ 第四階段自動判別結果預覽</div>
+                    <div class="判別結果列">
+                        <span class="判別標籤">受眾類型：</span>
+                        <span class="判別值" id="判別_受眾">—</span>
+                    </div>
+                    <div class="判別結果列">
+                        <span class="判別標籤">套用風格：</span>
+                        <span class="判別值" id="判別_風格">—</span>
+                        <span class="判別徽章" id="判別_徽章">自動</span>
+                    </div>
+                    <div class="判別結果列">
+                        <span class="判別標籤">建議頁數：</span>
+                        <span class="判別值" id="判別_頁數">依字數自動計算</span>
+                    </div>
+                    <div class="判別結果列">
+                        <span class="判別標籤">圖表類型：</span>
+                        <span class="判別值" id="判別_圖表">—</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <!-- 生成按鈕 -->
         <div>
-            <div class="進度條包裹" id="進度條包裹"><div class="進度條指示"></div></div>
-            <button class="啟動按鈕" id="啟動按鈕" onclick="執行演算生成()">
+            <div class="進度條包裹"><div class="進度條指示"></div></div>
+            <button class="啟動按鈕" onclick="執行演算生成()">
                 ⚡ 生成筆記本語言模型提示詞
             </button>
         </div>
@@ -850,6 +1301,20 @@ function 執行演算生成() {
     const 客製需求   = document.getElementById("客製化需求").value.trim();
     const 格式化需求 = 客製需求.split('\n').map(s => `    - "${s.trim()}"`).join('\n');
 
+    // ── 讀取簡報模組屬性 ──
+    const 屬性受眾     = document.getElementById("屬性受眾")?.value || "專業職場";
+    const 屬性用途     = document.getElementById("屬性用途")?.value || "研究報告型";
+    const 屬性資料結構 = document.getElementById("屬性資料結構")?.value || "問題解決型";
+    const 屬性版面比例 = document.getElementById("屬性版面比例")?.value || "16:9";
+    const 屬性文字風格 = document.getElementById("屬性文字風格")?.value || "學術式";
+    const 屬性文字密度 = document.getElementById("屬性文字密度")?.value || "每頁不超過 60 字（標準型）";
+    const 屬性摘要數   = document.getElementById("屬性摘要數")?.value || "3";
+    const 屬性互動元素 = document.getElementById("屬性互動元素")?.value || "無";
+    const 屬性教學活動 = document.getElementById("屬性教學活動")?.value || "無";
+    const 屬性內容深度 = document.getElementById("屬性內容深度")?.value || "心智層（系統理解）";
+    const 選用簡報風格 = 目前選中風格 || "自動判別";
+    const 判別結果     = 執行自動判別(主題, parseInt(總頁數) * 100);
+
     const 色調資料   = 獲取主題專屬色調(主題);
     const 純淨色調   = 色調資料.名稱;
     const 預覽發光色 = 色調資料.色碼;
@@ -893,6 +1358,37 @@ ${雙列排版結果}  簡報類型: "${類型}"
   輸出格式限制: "強制使用繁體中文（台灣，UTF-8）"
   特殊客製化需求:
 ${格式化需求}
+
+==========================================
+簡報屬性設定:\${選用簡報風格 !== '自動判別' ? '\n  簡報風格類型: "' + 選用簡報風格 + '"' : '\n  簡報風格類型: "' + 判別結果.判別風格 + '（自動判別）"'}
+  受眾設定: "\${屬性受眾}"
+  受眾用語策略: "\${判別結果.受眾描述}"
+  簡報用途: "\${屬性用途}"
+  資料結構_教學流程: "\${屬性資料結構}"
+  版面比例: "\${屬性版面比例}"
+  文字風格: "\${屬性文字風格}"
+  文字密度控制: "\${屬性文字密度}"
+  關鍵摘要策略: "\${屬性摘要數}"
+  互動元素: "\${屬性互動元素}"
+  教學活動: "\${屬性教學活動}"
+  內容深度: "\${屬性內容深度}"
+
+第四階段_自動判別封包:
+  套用風格: "\${判別結果.判別風格}"
+  建議頁數: "\${判別結果.建議頁數}"
+  圖表類型: "\${判別結果.圖表類型}"
+
+==========================================
+幻燈片固定執行規則:
+  結構規範:
+    - "第 1 行：標題（結論導向，不超過 15 字）"
+    - "第 2 區：3–4 個核心重點（每點不超過 20 字，摘要策略：\${屬性摘要數}）"
+    - "第 3 區：講者備註（每張自動生成）"
+  文字密度: "\${屬性文字密度}，全面採用條列式，禁止長段落"
+  封面架構: "主題 + 副標 + 日期"
+  核心摘要張: "3–5 個結論"
+  結尾張: "行動呼籲 / 下一步建議"
+  資料引用: "每個重要論點標記來源段落，引用具體數據時標記單位與出處"
 
 AI 防破圖字體排版規範（1920×1080 基準）:
   字體族群: "強制鎖定無襯線體（微軟正黑體 / 思源黑體）"
@@ -994,7 +1490,172 @@ function showToast(msg, isErr = false) {
 /* ════════════════════════════════════════════════════
    初始化
 ════════════════════════════════════════════════════ */
-window.addEventListener("load", () => { 即時演算預覽(); });
+
+/* ════════════════════════════════════════════════════
+   簡報模組：五大類 20 種風格資料庫
+════════════════════════════════════════════════════ */
+const 簡報風格清單 = [
+    // 結構類型（5種）
+    { 類別:"結構", 名稱:"麥肯錫式",    標籤:"MECE 分層論點",      適用:"商業提案、策略報告",  特徵:"假設驅動、結構化" },
+    { 類別:"結構", 名稱:"金字塔原則",  標籤:"結論先行",           適用:"管理匯報、說服提案",  特徵:"由上而下、SCQA 架構" },
+    { 類別:"結構", 名稱:"條列式",      標籤:"簡明條列",           適用:"教學、操作手冊",      特徵:"平行結構、易掃讀" },
+    { 類別:"結構", 名稱:"流程型",      標籤:"順序步驟",           適用:"SOP、製程說明",       特徵:"時序邏輯、箭頭引導" },
+    { 類別:"結構", 名稱:"問題解決",    標籤:"WHY→HOW→WHAT",     適用:"問題分析、學術報告",  特徵:"問題→原理→應用" },
+    // 資訊圖表（4種）
+    { 類別:"資訊", 名稱:"資訊圖表式",  標籤:"視覺化資訊",         適用:"數據展示、研究報告",  特徵:"圖示主導、多色系" },
+    { 類別:"資訊", 名稱:"資料故事",    標籤:"數據敘事",           適用:"分析報告、趨勢研究",  特徵:"脈絡＋數據＋洞見" },
+    { 類別:"資訊", 名稱:"圖表主導",    標籤:"Chart First",       適用:"財務報告、KPI 匯報",  特徵:"圖表占比 60%+" },
+    { 類別:"資訊", 名稱:"比較分析",    標籤:"對比差異",           適用:"市場研究、評估報告",  特徵:"表格／雙欄並列" },
+    // 思考整理（4種）
+    { 類別:"思考", 名稱:"心智圖",      標籤:"放射狀思考",         適用:"教學整理、概念梳理",  特徵:"中心→分支→葉節點" },
+    { 類別:"思考", 名稱:"曼陀羅九宮格",標籤:"9格展開",            適用:"目標分解、研究筆記",  特徵:"核心→8方向延伸" },
+    { 類別:"思考", 名稱:"康乃爾筆記",  標籤:"三欄結構",           適用:"教學整理、會議記錄",  特徵:"提問欄＋筆記＋摘要" },
+    { 類別:"思考", 名稱:"時間軸",      標籤:"時序排列",           適用:"歷史演進、計畫甘特",  特徵:"時間軸貫穿全頁" },
+    // 故事敘述（3種）
+    { 類別:"故事", 名稱:"故事型",      標籤:"敘事弧線",           適用:"演講、品牌提案",      特徵:"情境→衝突→解決" },
+    { 類別:"故事", 名稱:"英雄行程",    標籤:"Hero's Journey",    適用:"產品發表、激勵演講",  特徵:"召喚→試煉→歸來" },
+    { 類別:"故事", 名稱:"案例研究",    標籤:"Case Study",        適用:"學術、教學個案",      特徵:"背景→問題→解法→結果" },
+    // 設計風格（4種）
+    { 類別:"設計", 名稱:"極簡風",      標籤:"Less is More",      適用:"展示、宣傳",          特徵:"大留白、單色、無邊框" },
+    { 類別:"設計", 名稱:"雜誌風",      標籤:"Editorial Style",   適用:"品牌、課堂呈現",      特徵:"圖文混排、強視覺衝擊" },
+    { 類別:"設計", 名稱:"插畫風",      標籤:"Illustration",      適用:"教育、兒童課堂",      特徵:"手繪感、柔和色調" },
+    { 類別:"設計", 名稱:"動漫風",      標籤:"Anime / Pop Art",   適用:"娛樂、青少年課堂",    特徵:"高彩度、角色元素" },
+];
+
+/* ────────── 模組折疊控制 ────────── */
+function 切換模組展開() {
+    const 內容 = document.getElementById("模組內容區");
+    const 箭頭 = document.getElementById("模組箭頭");
+    const 標題列 = document.querySelector(".模組標題列");
+    const 已展開 = 內容.classList.contains("展開");
+    內容.classList.toggle("展開", !已展開);
+    箭頭.classList.toggle("旋轉", !已展開);
+    標題列.classList.toggle("展開", !已展開);
+    if (!已展開) 更新自動判別預覽();
+}
+
+/* ────────── 風格卡片渲染 ────────── */
+let 目前選中風格 = null;
+let 目前篩選類別 = "全部";
+
+function 渲染風格卡片(篩選類別) {
+    目前篩選類別 = 篩選類別;
+    const 容器 = document.getElementById("風格卡片容器");
+    容器.innerHTML = "";
+    const 顯示清單 = 篩選類別 === "全部"
+        ? 簡報風格清單
+        : 簡報風格清單.filter(f => {
+            const 類別對應 = { "結構":"結構","資訊":"資訊","思考":"思考","故事":"故事","設計":"設計" };
+            return f.類別 === 類別對應[篩選類別];
+          });
+
+    顯示清單.forEach(風格 => {
+        const div = document.createElement("div");
+        div.className = "風格卡片" + (目前選中風格 === 風格.名稱 ? " 選中" : "");
+        div.onclick = () => 選取風格卡片(風格.名稱);
+        div.innerHTML = `
+            <div class="風格卡片名稱">${風格.名稱}</div>
+            <div class="風格卡片標籤">${風格.標籤}</div>
+            <div class="風格卡片適用">${風格.適用}</div>
+        `;
+        容器.appendChild(div);
+    });
+}
+
+function 選取風格卡片(名稱) {
+    目前選中風格 = 目前選中風格 === 名稱 ? null : 名稱;
+    渲染風格卡片(目前篩選類別);
+    更新自動判別預覽();
+}
+
+function 切換分類(el, 類別) {
+    document.querySelectorAll(".風格分類標籤").forEach(t => t.classList.remove("選中"));
+    el.classList.add("選中");
+    渲染風格卡片(類別);
+}
+
+/* ────────── 第四階段：自動判別規則 ────────── */
+function 執行自動判別(主題, 字數估算) {
+    let 受眾 = document.getElementById("屬性受眾")?.value || "專業職場";
+    let 判別風格 = "問題解決型（預設）";
+    let 建議頁數 = "10–15 張";
+    let 圖表類型 = "混合式圖表";
+
+    // 受眾對應
+    const 受眾對應 = {
+        "學生或一般大眾": "生活化例子・用語淺顯",
+        "專業職場": "精準術語・分層論點",
+        "企業主管": "結論先行・數據支撐",
+        "研究人員": "引用規範・方法論嚴謹",
+        "高中生": "圖示引導・互動元素強化"
+    };
+
+    // 主題關鍵字 → 風格
+    const 風格規則 = [
+        { 詞:["學術","研究","文獻","論文"],                  風格:"問題解決 / 比較分析" },
+        { 詞:["商業","報告","提案","策略"],                  風格:"麥肯錫式 / 金字塔原則" },
+        { 詞:["數據","統計","分析","資料"],                  風格:"圖表主導 / 資料故事" },
+        { 詞:["教學","課程","說明","介紹"],                  風格:"條列式 / 問題解決" },
+        { 詞:["說服","品牌","行銷","宣傳"],                  風格:"故事型 / 英雄行程" },
+        { 詞:["比較","對比","差異","評估"],                  風格:"比較分析 / 資訊圖表式" },
+        { 詞:["量子","太空","科技","AI"],                    風格:"資訊圖表式 / 圖表主導" },
+        { 詞:["旅遊","行程","景點","旅行","出遊","觀光"],    風格:"故事型 / 資訊圖表式（旅遊規劃）" },
+        { 詞:["背包","自助","自由行","民宿"],                風格:"條列式 / 資訊圖表式（旅遊攻略）" },
+        { 詞:["美食","餐廳","特產","在地"],                  風格:"圖表主導 / 雜誌風（旅遊飲食）" },
+        { 詞:["文化","歷史","古蹟","遺址"],                  風格:"故事型 / 嚴謹學術期刊（文化旅遊）" },
+        { 詞:["預算","費用","花費","機票","住宿"],            風格:"圖表主導 / 比較分析（旅遊預算）" },
+    ];
+    for (const 規則 of 風格規則) {
+        if (規則.詞.some(w => 主題.includes(w))) { 判別風格 = 規則.風格; break; }
+    }
+    if (目前選中風格) 判別風格 = `${目前選中風格}（手動選擇）`;
+
+    // 頁數判別
+    if (字數估算 < 500)       建議頁數 = "5–8 張";
+    else if (字數估算 < 2000) 建議頁數 = "10–15 張";
+    else                       建議頁數 = "18–25 張";
+
+    // 圖表類型
+    const 圖表規則 = [
+        { 詞:["時間","歷史","趨勢","演進"],           圖表:"折線圖 / 時間軸" },
+        { 詞:["比例","佔比","分配","分布"],           圖表:"圓餅圖 / 環形圖" },
+        { 詞:["概念","關係","架構","流程"],           圖表:"心智圖 / 概念圖" },
+        { 詞:["比較","差異","排名","對比"],           圖表:"長條圖 / 對照表" },
+        { 詞:["步驟","流程","SOP","順序"],            圖表:"流程圖 / 甘特圖" },
+        { 詞:["旅遊","行程","景點","路線","地圖"],    圖表:"地圖示意圖 / 行程時間軸" },
+        { 詞:["預算","費用","花費","比價"],           圖表:"費用長條圖 / 預算圓餅圖" },
+        { 詞:["交通","距離","時間","里程"],           圖表:"路線圖 / 距離對照表" },
+    ];
+    for (const 規則 of 圖表規則) {
+        if (規則.詞.some(w => 主題.includes(w))) { 圖表類型 = 規則.圖表; break; }
+    }
+
+    return { 受眾描述: 受眾對應[受眾] || 受眾, 判別風格, 建議頁數, 圖表類型 };
+}
+
+function 更新自動判別預覽() {
+    const 主題 = document.getElementById("輸入主題")?.value.trim() || "";
+    const 字數 = parseInt(document.getElementById("簡報頁數")?.value || 15) * 100;
+    const 結果 = 執行自動判別(主題, 字數);
+    const el受眾 = document.getElementById("判別_受眾");
+    const el風格 = document.getElementById("判別_風格");
+    const el徽章 = document.getElementById("判別_徽章");
+    const el頁數 = document.getElementById("判別_頁數");
+    const el圖表 = document.getElementById("判別_圖表");
+    if (el受眾) el受眾.textContent = 結果.受眾描述;
+    if (el風格) el風格.textContent = 結果.判別風格;
+    if (el徽章) el徽章.textContent = 目前選中風格 ? "手動" : "自動";
+    if (el頁數) el頁數.textContent = 結果.建議頁數;
+    if (el圖表) el圖表.textContent = 結果.圖表類型;
+}
+
+/* ────────── 初始化風格卡片（在現有 load 事件中觸發） ────────── */
+const _舊初始化 = window.onload;
+
+window.addEventListener("load", () => {
+    即時演算預覽();
+    渲染風格卡片("全部");
+});
 </script>
 </body>
 </html>
